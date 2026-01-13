@@ -1,0 +1,20 @@
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Optional: gradient colors for cards */
+.bg-primary { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); }
+.bg-success { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.bg-warning { background: linear-gradient(135deg, #fbd72b 0%, #f8c846 100%); }
+.bg-danger  { background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%); }

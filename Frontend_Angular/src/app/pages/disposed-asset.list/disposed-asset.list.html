@@ -1,0 +1,43 @@
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="row mb-3">
+        <h3>Disposed Assets</h3>
+    </div>
+
+    <!-- Search -->
+    <div class="row mb-3 g-2 align-items-center">
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Search assets..." [(ngModel)]="searchTerm"
+                (input)="onSearchInput()" />
+        </div>
+        <div class="col-md-6 d-flex justify-content-md-end gap-2 flex-wrap">
+            <button class="btn btn-secondary" (click)="goBack()">
+                <i class="bi bi-arrow-left me-1"></i> Back to Asset List
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover table-bordered align-middle mb-0">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Remark</th>
+                    <th>Deleted At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let asset of filteredAssets" (click)="openDetails(asset)" style="cursor:pointer;">
+                    <td>{{ asset.name }}</td>
+                    <td>{{ asset.type }}</td>
+                    <td>{{ asset.remarks || '-' }}</td>
+                    <td>{{ asset.deletedAt | date:'medium' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

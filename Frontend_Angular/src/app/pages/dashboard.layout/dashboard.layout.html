@@ -1,0 +1,30 @@
+<div class="d-flex vh-100">
+  <!-- Sidebar -->
+  <app-sidebar [user]="user">
+    <li class="nav-item mb-2" *ngIf="user.role === 'Admin'">
+      <a class="nav-link sidebar-link d-flex align-items-center" routerLink="/admin/asset-list"
+        routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="bi bi-list-ul me-2"></i> Manage Assets
+      </a>
+    </li>
+
+    <li class="nav-item mb-2" *ngIf="user.role === 'Admin'">
+      <a class="nav-link sidebar-link d-flex align-items-center" routerLink="/admin/user-list"
+        routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="bi bi-people-fill me-2"></i> Manage User
+      </a>
+    </li>
+
+    <li class="nav-item mb-2" *ngIf="user.role === 'User'">
+      <a class="nav-link sidebar-link d-flex align-items-center" routerLink="/user/asset-list"
+        routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="bi bi-card-checklist me-2"></i> My Assets
+      </a>
+    </li>
+  </app-sidebar>
+
+  <!-- Main content -->
+  <div class="flex-grow-1 p-4 overflow-auto">
+    <router-outlet></router-outlet>
+  </div>
+</div>

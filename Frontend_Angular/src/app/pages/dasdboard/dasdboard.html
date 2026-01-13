@@ -1,0 +1,29 @@
+<!-- Card -->
+<div class="row mb-4">
+  <div class="col-md-3 mb-3" *ngFor="let card of cards">
+    <div class="card text-white shadow-sm border-0 h-100" [ngClass]="'bg-' + card.color" style="border-radius: 1rem; cursor: pointer; transition: transform 0.2s;">
+      <div class="card-body d-flex flex-column align-items-center justify-content-center">
+        <div class="icon-circle mb-3">
+          <i class="bi {{card.icon}} fs-1"></i>
+        </div>
+        <h5 class="text-center">{{ card.title }}</h5>
+        <h3 class="fw-bold">{{ card.value || 0 }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart -->
+<div class="row">
+  <div class="col-md-6 mb-4" *ngFor="let chart of [{title:'Assets by Status', id:'statusChart'}, {title:'Assets by Type', id:'typeChart'}]">
+  <div class="card shadow-sm p-3" style="border-radius: 1rem; height: 650px;">
+    <div class="card-header text-center bg-light border-0">
+      <h6>{{ chart.title }}</h6>
+    </div>
+    <br>
+    <div class="chart-container" style="height: calc(100% - 50px);">
+      <canvas [id]="chart.id" style="height: 100%; width: 100%;"></canvas>
+    </div>
+  </div>
+</div>
+</div>

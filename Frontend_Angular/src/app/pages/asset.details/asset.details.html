@@ -1,0 +1,100 @@
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h3>Asset Details</h3>
+        </div>
+        <div class="col text-end">
+            <button class="btn btn-secondary" (click)="goBack()">
+                <i class="bi bi-arrow-left"></i> Back
+            </button>
+        </div>
+    </div>
+
+    <!-- Asset Info Card -->
+    <div class="card shadow-sm mb-4" *ngIf="asset">
+        <div class="card-header bg-dark text-white">
+            Asset Information
+        </div>
+        <div class="card-body">
+            <div class="row mb-2">
+                <div class="col-md-4"><strong>Name: </strong> {{ asset.name }}</div>
+                <div class="col-md-4"><strong>Type: </strong> {{ asset.type }}</div>
+                <div class="col-md-4">
+                    <strong>Status: </strong>
+                    <span class="badge" [style.background-color]="statusMap[+asset.status].color" style="color: white;">
+                        {{ statusMap[+asset.status].text }}
+                    </span>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-4" *ngIf="isAdmin || asset.assignedTo">
+                    <strong>Assigned To: </strong> {{ asset.assignedUsername || '-' }}
+                </div>
+                <div class="col-md-4">
+                    <strong>Purchase Date: </strong>
+                    {{ asset.purchaseDate ? (asset.purchaseDate | date:'mediumDate') : '-' }}
+                </div>
+                <div class="col-md-4">
+                    <strong>Warranty Expiry: </strong>
+                    {{ asset.warrantyExpiry ? (asset.warrantyExpiry | date:'mediumDate') : '-' }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"><strong>Remarks: </strong> {{ asset.remarks || '-' }}</div>
+            </div>
+
+            <br>
+
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <strong>Created At: </strong>
+                    {{ asset.createdAt ? (asset.createdAt | date:'medium') : '-' }}
+                </div>
+                <div class="col-md-4">
+                    <strong>Updated At: </strong>
+                    {{ asset.updatedAt ? (asset.updatedAt | date:'medium') : '-' }}
+                </div>
+                <div class="col-md-4" *ngIf="asset.isDeleted">
+                    <strong>Deleted At: </strong>
+                    {{ asset.deletedAt ? (asset.deletedAt | date:'medium') : '-' }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Activity Logs -->
+    <div class="card shadow-sm" *ngIf="logs">
+        <div class="card-header bg-dark text-white">
+            Activity Log
+        </div>
+        <div class="card-body p-0">
+            <div *ngIf="logs.length === 0" class="text-center p-3 text-muted">
+                No activity logs found.
+            </div>
+            <div *ngIf="logs.length > 0" class="table-responsive">
+                <table class="table table-hover table-bordered mb-0">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Time</th>
+                            <th *ngIf="!isAdmin">User</th>
+                            <th>Action</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let log of logs">
+                            <td>{{ log.timestamp | date:'short' }}</td>
+                            <td *ngIf="!isAdmin">{{ log.userName }}</td>
+                            <td>{{ log.action }}</td>
+                            <td>{{ log.notes || '-' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,109 @@
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="row mb-3">
+        <div class="col">
+            <h3>User Management</h3>
+            <p class="text-muted">Manage all system users</p>
+        </div>
+    </div>
+
+    <!-- Search & Buttons -->
+    <div class="row mb-3 g-2 align-items-center">
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Search users..." [(ngModel)]="searchTerm"
+                (input)="onSearchInput()" />
+        </div>
+        <div class="col-md-6 d-flex justify-content-md-end gap-2 flex-wrap">
+            <button class="btn btn-success" (click)="exportExcel()">
+                <i class="bi bi-file-earmark-excel me-1"></i> Export Excel
+            </button>
+            <button class="btn btn-primary" (click)="openCreateModal()">
+                <i class="bi bi-plus-circle me-1"></i> Add User
+            </button>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive shadow-sm rounded">
+  <table class="table table-hover table-bordered align-middle mb-0">
+    <thead class="table-secondary">
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th style="width: 150px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of filteredUsers" [ngClass]="user.isTerminated ? 'text-muted' : ''">
+        <td>
+          {{ user.userName }}
+          <span *ngIf="user.isTerminated" class="text-danger ms-1" title="Terminated">
+            <i class="bi bi-x-circle-fill"></i>
+          </span>
+        </td>
+        <td>{{ user.email }}</td>
+        <td>
+          <span class="badge" [ngClass]="user.role === 'Admin' ? 'bg-primary' : 'bg-info'">
+            {{ user.role }}
+          </span>
+        </td>
+        <td>
+          <span class="badge" [ngClass]="user.isTerminated ? 'bg-danger' : 'bg-success'">
+            {{ user.isTerminated ? 'Terminated' : 'Active' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-info me-1" (click)="openEditModal(user)" [disabled]="user.isTerminated">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteUser(user)" [disabled]="user.isTerminated">
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ isEditMode ? 'Edit User' : 'Add User' }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form #userForm="ngForm" (ngSubmit)="saveUser(userForm)">
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" [(ngModel)]="currentUser.userName" name="userName" [readonly]="isEditMode" [disabled]="isEditMode"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" [(ngModel)]="currentUser.email" name="email"
+                                required email>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <select class="form-select" [(ngModel)]="currentUser.role" name="role" required>
+                                <option value="Admin">Admin</option>
+                                <option value="User">User</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ isEditMode ? 'Save Changes' : 'Add User' }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

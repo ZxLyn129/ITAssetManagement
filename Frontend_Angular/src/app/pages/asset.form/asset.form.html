@@ -1,0 +1,102 @@
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center"
+            style="padding-top: 16px; padding-bottom: 16px;">
+            <h5 class="mb-0">{{ isEditMode ? 'Edit Asset' : 'Add New Asset' }}</h5>
+        </div>
+
+        <div class="card-body">
+            <form (ngSubmit)="submitForm()" #assetForm="ngForm" novalidate>
+                <div class="row g-3">
+                    <!-- Name -->
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Asset Name <span class="text-danger">*</span></label>
+                        <input type="text" id="name" class="form-control" [(ngModel)]="asset.name" name="name" required
+                            #name="ngModel">
+                        <div *ngIf="name.invalid && name.touched" class="text-danger small">
+                            Asset name is required.
+                        </div>
+                    </div>
+
+                    <!-- Type -->
+                    <div class="col-md-6">
+                        <label for="type" class="form-label">Type <span class="text-danger">*</span></label>
+                        <input type="text" id="type" class="form-control" [(ngModel)]="asset.type" name="type" required
+                            #type="ngModel">
+                        <div *ngIf="type.invalid && type.touched" class="text-danger small">
+                            Asset type is required.
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-6">
+                        <label for="status" class="form-label">
+                            Status <span class="text-danger">*</span>
+                        </label>
+                        <select id="status" class="form-select" [(ngModel)]="asset.status" name="status" required
+                            #status="ngModel">
+                            <option [ngValue]="null" disabled selected *ngIf="!isEditMode">-- Please select a status --
+                            </option>
+
+                            <option *ngFor="let s of statusOptions" [value]="s.value">{{ s.text }}</option>
+                        </select>
+                        <div *ngIf="status.invalid && status.touched" class="text-danger small">
+                            Select a status.
+                        </div>
+                    </div>
+
+                    <!-- Assigned To -->
+                    <div class="col-md-6">
+                        <label for="assignedTo" class="form-label">Assign To</label>
+                        <select id="assignedTo" class="form-select" [(ngModel)]="asset.assignedTo" name="assignedTo">
+                            <option [ngValue]="null" disabled selected *ngIf="!asset.assignedTo">
+                                -- Please select a user (optional) --
+                            </option>
+                            <option [ngValue]="null">-- Unassigned --</option>
+
+                            <option *ngFor="let u of users" [value]="u.id">{{ u.userName }}</option>
+                        </select>
+                    </div>
+
+
+                    <!-- Purchase Date -->
+                    <div class="col-md-6">
+                        <label for="purchaseDate" class="form-label">Purchase Date <span
+                                class="text-danger">*</span></label>
+                        <input type="date" id="purchaseDate" class="form-control" [(ngModel)]="asset.purchaseDate"
+                            name="purchaseDate" required #purchaseDate="ngModel">
+                        <div *ngIf="purchaseDate.invalid && purchaseDate.touched" class="text-danger small">
+                            Purchase date is required.
+                        </div>
+                    </div>
+
+                    <!-- Warranty Expiry -->
+                    <div class="col-md-6">
+                        <label for="warrantyExpiry" class="form-label">Warranty Expiry <span
+                                class="text-danger">*</span></label>
+                        <input type="date" id="warrantyExpiry" class="form-control" [(ngModel)]="asset.warrantyExpiry"
+                            name="warrantyExpiry" required #warrantyExpiry="ngModel">
+                        <div *ngIf="warrantyExpiry.invalid && warrantyExpiry.touched" class="text-danger small">
+                            Warranty expiry date is required.
+                        </div>
+                    </div>
+
+                    <!-- Remarks -->
+                    <div class="col-12">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <textarea id="remarks" class="form-control" [(ngModel)]="asset.remarks" name="remarks"
+                            rows="3"></textarea>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-secondary" (click)="closeForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="assetForm.invalid">
+                        {{ isEditMode ? 'Update Asset' : 'Create Asset' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
